@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">chatNow</string>
+    <string name="doesn_t_have_an_account_register_here"><u>Doesn\'t have an account? Register here!</u></string>
+    <string name="already_have_an_account_login_here"><u>Already have an account? Login here!</u></string>
+</resources>

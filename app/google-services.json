@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "413332780589",
+    "project_id": "chatnow-e5671",
+    "storage_bucket": "chatnow-e5671.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413332780589:android:f446a4ef4a3b659a18eaa4",
+        "android_client_info": {
+          "package_name": "com.sayan.chatnow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq0L5M-gOtIiDdO1XA-3yPBQWhD8ikqQI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
