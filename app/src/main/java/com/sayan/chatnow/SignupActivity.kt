@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -58,10 +59,12 @@ class SignupActivity : AppCompatActivity() {
     private fun signUpUser(nameSignup:String, emailSignup: String, pwdSignup: String) {
         auth.createUserWithEmailAndPassword(emailSignup, pwdSignup)
             .addOnCompleteListener(this) { task ->
+                binding.progressSignup.visibility=ProgressBar.VISIBLE
                 if (task.isSuccessful) {
                     Toast.makeText(applicationContext, "Success!!", Toast.LENGTH_SHORT).show()
                     adduserToDataBase(nameSignup, emailSignup, auth.currentUser?.uid!!)
                     val intent = Intent(this, MainActivity::class.java)
+                    binding.progressSignup.visibility=ProgressBar.GONE
                     startActivity(intent)
                     finish()
                 } else {

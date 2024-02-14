@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -49,11 +50,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUser(emailLogin: String, pwdLogin: String) {
+        binding.progressLogin.visibility=ProgressBar.VISIBLE
         auth.signInWithEmailAndPassword(emailLogin, pwdLogin)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(applicationContext, "Logged in successfully", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
+                    binding.progressLogin.visibility=ProgressBar.GONE
                     startActivity(intent)
                     finish()
                 } else {

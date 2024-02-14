@@ -4,6 +4,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewTreeObserver
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -13,6 +16,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.sayan.chatnow.databinding.ActivityChatBinding
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class ChatActivity : AppCompatActivity() {
     private lateinit var binding:ActivityChatBinding
@@ -36,8 +43,10 @@ class ChatActivity : AppCompatActivity() {
         messageList= ArrayList()
         messageAdapter= MessageAdapter(this, messageList)
 
-        binding.chatRecycler.layoutManager=LinearLayoutManager(this)
+        val manager = LinearLayoutManager(this)
+        binding.chatRecycler.layoutManager=manager
         binding.chatRecycler.adapter=messageAdapter
+//        binding.chatRecycler.smoothScrollToPosition(messageList.size-1)
 
         senderRoom = receiverUid+senderUid
         receiverRoom=senderUid+receiverUid
@@ -58,6 +67,10 @@ class ChatActivity : AppCompatActivity() {
                     }
 
                     messageAdapter.notifyDataSetChanged()
+
+                    binding.chatRecycler.post {
+                        binding.chatRecycler.scrollToPosition(messageList.size - 1)
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -66,26 +79,39 @@ class ChatActivity : AppCompatActivity() {
 
             })
 
-        Log.d("MESSAGE",messageList.toString())
+
+
+//        Log.d("TIME",formattedDateTime)
+
+
 
 
         binding.sendBtn.setOnClickListener {
             val message = binding.messageEt.text.toString()
-            val messageObject = MessageModel(message, senderUid!!)
+            val currentDateTime = LocalTime.now()
+            val formatter = DateTimeFormatter.ofPattern("HH:mm")
+            val formattedDateTime = currentDateTime.format(formatter)
+            val messageObject = MessageModel(message, senderUid!!, formattedDateTime)
 
-            dbRef.child("chats").child(senderRoom!!).child("messages").push()
-                .setValue(messageObject).addOnSuccessListener {
-                    dbRef.child("chats").child(receiverRoom!!)
-                        .child("messages")
-                        .push()
-                        .setValue(messageObject)
-                }
-            binding.messageEt.setText("")
-
+            if((binding.messageEt.text.toString())!="") {
+                dbRef.child("chats").child(senderRoom!!).child("messages").push()
+                    .setValue(messageObject).addOnSuccessListener {
+                        dbRef.child("chats").child(receiverRoom!!)
+                            .child("messages")
+                            .push()
+                            .setValue(messageObject)
+                    }
+                binding.messageEt.setText("")
+            }else{
+                Toast.makeText(applicationContext, "Write something!", Toast.LENGTH_SHORT).show()
+            }
         }
+
+
+
     }
 
-    //function to add messages in recyclerview
+
 
 
 }
