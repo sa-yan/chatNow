@@ -9,12 +9,63 @@
     tools:context=".ChatActivity"
   >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/toolbar"
+        android:orientation="horizontal"
+        android:background="@color/yellow"
+        android:weightSum="100"
+        >
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:id="@+id/btn_back"
+            android:background="@drawable/back"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:layout_weight="30"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/name_and_pp"
+            android:layout_weight="70"
+            android:layout_marginStart="10dp"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/pp_toolbar"
+                android:layout_gravity="center"
+                android:src="@drawable/user"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_toolbar"
+                android:text="Sayan"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:textSize="25dp"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/chatRecycler"
-        android:layout_alignParentTop="true"
         android:layout_above="@+id/bottomLL"
+        android:layout_below="@+id/toolbar"
         />
 
     <LinearLayout

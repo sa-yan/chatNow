@@ -1,11 +1,14 @@
 package com.sayan.chatnow
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +18,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.sayan.chatnow.activities.MainActivity
 import com.sayan.chatnow.databinding.ActivityChatBinding
+import com.squareup.picasso.Picasso
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -33,12 +38,36 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         val view = binding.root
+
+        // Hide the status bar
+        window.requestFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(view)
 
         val name = intent.getStringExtra("name")
         val receiverUid = intent.getStringExtra("id")
+        val pp = intent.getStringExtra("pp")
         val senderUid = FirebaseAuth.getInstance().currentUser?.uid
         dbRef = FirebaseDatabase.getInstance().getReference()
+
+        /***************************************TOOLBAR*************************/
+        binding.nameToolbar.text=name
+
+        Picasso
+            .get()
+            .load(pp)
+            .placeholder(R.drawable.user)
+            .into(binding.ppToolbar)
+
+        binding.btnBack.setOnClickListener{
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        /*************************************************************************/
 
         messageList= ArrayList()
         messageAdapter= MessageAdapter(this, messageList)

@@ -20,6 +20,7 @@
     import com.sayan.chatnow.R
     import com.sayan.chatnow.UserAdapter
     import com.sayan.chatnow.UserModel
+    import com.sayan.chatnow.UserProfileActivity
 
     class MainActivity : AppCompatActivity() {
         private lateinit var auth:FirebaseAuth
@@ -84,6 +85,9 @@
                 startActivity(intent)
                 finish()
                 return true
+            }else if(item.itemId==R.id.profile){
+                val intent = Intent(applicationContext, UserProfileActivity::class.java)
+                startActivity(intent)
             }
             return true
 
